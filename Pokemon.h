@@ -12,6 +12,8 @@ class Pokemon : public GameObject{
         Pokemon();
         Pokemon(char);
         Pokemon(string, int, char, unsigned int, Point2D);
+	Pokemon(string in_name, double speed, double hp, double phys_dmg, double
+		magic_dmg, double def, int in_id, char in_code, Point2D in_loc);
         virtual ~Pokemon();
         void StartMoving(Point2D);
         void StartMovingToCenter(PokemonCenter*);
@@ -24,11 +26,21 @@ class Pokemon : public GameObject{
         void ShowStatus();
         bool Update();
         string GetName();
-
+	bool IsAlive();
+	void TakeHit(double, double, double);
+	//	void ReadyBattle(Rival*)
+	bool StartBattle();
     protected:
         bool UpdateLocation();
         void SetupDestination(Point2D);
-
+	double health = 20;
+	double store_health = health;
+	double physical_damage = 5;
+	double magical_damage = 4;
+	double defense;
+	//Rival* target;
+	bool is_in_arena;
+	//BattleArena * current_arena;
     private:
         double speed;
         bool is_in_center = 0;
@@ -53,7 +65,11 @@ enum PokemonStates {
         MOVING_TO_GYM = 5,
         MOVING_TO_CENTER = 6,
         TRAINING_IN_GYM = 7,
-        RECOVERING_STAMINA = 8
+        RECOVERING_STAMINA = 8,
+	IN_ARENA = 9,
+	MOVING_TO_ARENA = 10,
+	BATTLE = 11,
+	FAINTED = 12
     };
 static double GetRandomAmountOfPokemonDollars(){
     return rand()%2;
