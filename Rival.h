@@ -2,6 +2,9 @@
 #define RIVAL_H
 #include "GameObject.h"
 #include "BattleArena.h"
+#include <math.h>
+#include <time.h>
+#include <stdlib.h>
 using namespace std;
 class Rival: public GameObject{
     protected:

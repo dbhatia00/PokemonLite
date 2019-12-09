@@ -16,10 +16,12 @@ Model::Model(){
     p.x = 5; p.y =5;
     PokemonGym* g2 = new PokemonGym(20, 5,7.5,8,2,p);
 
-    Rival* r1 = new Rival("Gary", 5, 100, 5, 5, 5, 1, Point2D(10,10));
-    Rival* r2 = new Rival("Silver", 5,100,5,5,5,2, Point2D(10,10));
+    
 
     BattleArena* b1 = new BattleArena(2, 5, 5, 1, Point2D(10,10));
+
+    Rival* r1 = new Rival("Gary", 5, 100, 5, 5, 5, 1, Point2D(10,10));
+    Rival* r2 = new Rival("Silver", 5,100,5,5,5,2, Point2D(10,10));
 
     object_ptrs[0] = p1;
     object_ptrs[1] = p2;
@@ -27,9 +29,9 @@ Model::Model(){
     object_ptrs[3] = c2;
     object_ptrs[4] = g1;
     object_ptrs[5] = g2;
-    object_ptrs[6] = r1;
+    object_ptrs[6] = b1;
     object_ptrs[7] = r2;
-    object_ptrs[8] = b1;
+    object_ptrs[8] = r1;
 
     pokemon_ptrs[0] = p1;
     pokemon_ptrs[1] = p2;
@@ -51,6 +53,7 @@ Model::Model(){
     num_gyms=2;
     num_arenas = 1;
     num_rivals = 2;
+    
     cout << "Model default constructed" << endl;
 }
 Model::~Model(){
