@@ -53,7 +53,7 @@ Model::Model(){
     num_gyms=2;
     num_arenas = 1;
     num_rivals = 2;
-    
+
     cout << "Model default constructed" << endl;
 }
 Model::~Model(){
@@ -88,7 +88,7 @@ Rival * Model::GetRivalPtr(int id){
 }
 bool Model::Update(){
     time++;
-    bool tempBool[6] = {false};
+    bool tempBool[10] = {false};
 
     for(int i =0 ; i<9; i++){
         tempBool[i] = object_ptrs[i] -> Update();
