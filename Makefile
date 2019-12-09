@@ -1,7 +1,7 @@
 GCC = g++ -g
 
-main: test.o Point2D.o Vector2D.o GameObject.o Building.o PokemonCenter.o PokemonGym.o Pokemon.o Model.o GameCommand.o View.o
-	$(GCC) test.o Point2D.o Vector2D.o GameObject.o Building.o PokemonCenter.o PokemonGym.o Pokemon.o Model.o GameCommand.o View.o -o main
+main: test.o Point2D.o Vector2D.o GameObject.o Building.o PokemonCenter.o PokemonGym.o Pokemon.o Model.o GameCommand.o View.o Rival.o BattleArena.o
+	$(GCC) test.o Point2D.o Vector2D.o GameObject.o Building.o PokemonCenter.o PokemonGym.o Pokemon.o Model.o GameCommand.o View.o Rival.o BattleArena.o -o main
 
 test.o: test.cpp
 	$(GCC) -c test.cpp
@@ -35,6 +35,11 @@ GameCommand.o: GameCommand.cpp
 
 View.o: View.cpp
 	$(GCC) -c View.cpp
+	
+Rival.o: Rival.cpp
+	$(GCC) -c Rival.cpp
 
+BattleArena.o: BattleArena.cpp
+	$(GCC) -c BattleArena.cpp
 clean:
-	rm test.o Point2D.o Vector2D.o GameObject.o Building.o PokemonCenter.o PokemonGym.o Pokemon.o Model.o GameCommand.o View.o
+	rm test.o Point2D.o Vector2D.o GameObject.o Building.o PokemonCenter.o PokemonGym.o Pokemon.o Model.o GameCommand.o View.o Rival.o BattleArena.o main

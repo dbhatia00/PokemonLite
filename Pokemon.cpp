@@ -130,6 +130,10 @@ using namespace std;
                 current_gym -> AddOnePokemon();
                 is_in_gym = true;
             }
+            else if(state == MOVING_TO_ARENA){
+                current_arena -> AddOnePokemon();
+                is_in_arena = true;
+            }
             return true;
         }
         else
@@ -145,6 +149,10 @@ using namespace std;
             if(is_in_gym){
                 is_in_gym = 0;
                 current_gym ->RemoveOnePokemon();
+            }
+            if(is_in_arena){
+                is_in_arena = 0;
+                current_arena ->RemoveOnePokemon();
             }
 
             return false;
@@ -186,6 +194,15 @@ using namespace std;
                 break;
             case RECOVERING_STAMINA: 
                 cout << "\trecovering stamina in Pokemon center " << current_center-> GetId() << endl;
+                break;
+            case MOVING_TO_ARENA:
+                cout << "\tmoving to arena " << current_arena->GetId() << endl;
+                break;
+            case BATTLE:
+                cout << "\tbattling in arena "<< endl;
+                break;
+            case IN_ARENA:
+                cout << "\tchilling in arena"   << endl;
                 break;
         }   
         if (IsExhausted()) cout << "\tExhausted!" << endl;
@@ -251,9 +268,87 @@ using namespace std;
                 break;
             /*case EXHAUSTED:
                 return false;
+                break;*/
+            case MOVING_TO_ARENA:
+                if(UpdateLocation()){
+                    state = IN_ARENA;
+                    return true;
+                }
+                else return false;
                 break;
-        */}
+            case IN_ARENA:
+                return false;
+                break;
+            case BATTLE:
+                pokemon_dollars -= current_arena ->GetDollarCost();
+                stamina -= current_arena ->GetStaminaCost();
+                StartBattle();
+                if(target -> get_health() == 0){
+                    health = store_health;
+                    state = IN_ARENA;
+                    target -> IsAlive();
+                }
+                else
+                {
+                    state = FAINTED;
+                    target ->IsAlive();
+                }
+        }
     }
     string Pokemon:: GetName(){
         return name;
+    }
+    bool Pokemon::IsAlive(){
+            if(state == FAINTED){
+                return true;
+            }
+            else return false;
+    }
+
+    void Pokemon::TakeHit(double phys_dmg, double mgk_dmg, double defense){
+        double damage;
+        int dmgTypeRandomizer = rand()%2;
+        if(dmgTypeRandomizer == 0){
+            damage = (100.0 - defense) / 100 * phys_dmg;
+        }
+        else{
+            damage = (100.0 - defense) / 100 * mgk_dmg;   
+        }
+        if (health > damage) health = health - damage;
+        else health = 0;
+        
+        //if(health ==0) state = FAINTED;
+    }
+    
+    void Pokemon::StartMovingToArena(BattleArena* arena){
+        if(IsExhausted()) 
+            cout << display_code << id_num << ": I am exhausted so I shouldn't be going to the arena..." << endl;
+        else if ((arena->GetLocation()).x == location.x && (arena->GetLocation()).y == location.y) 
+            cout << display_code << id_num << ": I am already at the Arena!" << endl;
+        else {
+            SetupDestination(arena -> GetLocation());
+            state = MOVING_TO_ARENA;
+            current_arena = arena;
+            cout << display_code << id_num << ": on my way to Battle Arena " << arena -> GetId() << endl;
+        }
+    }
+
+    void Pokemon::ReadyBattle(Rival* in_target){
+        if(state == IN_ARENA && current_arena->IsAbleToFight(pokemon_dollars, stamina) && !current_arena->IsBeaten() && in_target->IsAlive()){
+            target = in_target;
+            state = BATTLE;
+        }
+        else
+        {
+            state = IN_ARENA;
+        }
+    }
+
+    bool Pokemon::StartBattle(){
+        while (health>0 || target->get_health() > 0)
+        {
+            target->TakeHit(physical_damage, magical_damage, defense);
+
+            if (target ->get_health() != 0) TakeHit(target ->get_phys_dmg(), target->get_magic_dmg(), target->get_defense());
+        }
     }

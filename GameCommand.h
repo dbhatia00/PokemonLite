@@ -16,5 +16,9 @@ class GameCommand{
     //, View& view
     void DoRunCommand(Model& model, View& view);
     //, View& view
+    
+    //PA4 ADDITIONS ->
+    void DoBattleCommand(Model & model, int pokemon_id, int rival_id);
+    void DoMoveToBattleArena(Model & model, int pokemon_id, int arena_id);
 };
 #endif
