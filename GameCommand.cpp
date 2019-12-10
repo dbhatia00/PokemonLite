@@ -78,3 +78,25 @@
         model.ShowStatus();
         model.Display(view);
     }
+        void GameCommand::DoBattleCommand(Model & model, int pokemon_id, int rival_id){
+        if((model.GetPokemonPtr(pokemon_id)) != NULL){
+            Pokemon * poke = model.GetPokemonPtr(pokemon_id);
+            Rival * riv = model.GetRivalPtr(rival_id);
+            poke -> ReadyBattle(riv);
+            if(poke->GetState() == BATTLE)
+                cout << poke->GetName() << " is starting an arena battle!" <<endl;
+        }
+        else
+            cout << "Invalid input, please try again" << endl;
+    }
+    void GameCommand::DoMoveToBattleArena(Model & model, int pokemon_id, int arena_id){
+        if((model.GetPokemonPtr(pokemon_id)) != NULL){
+            Pokemon * poke = model.GetPokemonPtr(pokemon_id);
+            BattleArena * ba = model.GetPokemonArenaPtr(arena_id);
+            poke ->StartMovingToArena(ba);
+            if(poke->GetState() == MOVING_TO_ARENA)
+                cout << "Moving " << poke->GetName() << " to Battle Arena " << ba->GetId() << endl;
+        }
+        else
+            cout << "Invalid input, please try again" << endl;
+    }

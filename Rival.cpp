@@ -42,10 +42,11 @@ bool Rival::Update(){
             cout << display_code << id_num << " has been defeated." << endl; 
             return true; 
         }
-        else return false;
+    else return false;
 }
 void Rival::ShowStatus(){
     cout << name <<" status:" << endl;
+    GameObject::ShowStatus();
     cout << "\thealth: " << health << endl << "\tstate: ";
     if(state == ALIVE_RIVAL){
       cout <<  "RIVAL ALIVE";
