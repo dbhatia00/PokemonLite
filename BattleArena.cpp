@@ -56,11 +56,11 @@
     }
     bool BattleArena::IsBeaten(){
         if (num_rivals_remaining == 0){
-            return false;
+            return true;
         }
         else
         {
-            return true;
+            return false;
         }
         
     }

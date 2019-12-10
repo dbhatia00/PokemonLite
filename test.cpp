@@ -65,6 +65,7 @@ int main(){
       case 'b':
          cin>> ID1>> ID2;
          GameCommand().DoBattleCommand(*h, ID1, ID2);
+         break;
       case 'a':
          cin >> ID1 >>ID2;
          GameCommand().DoMoveToBattleArena(*h, ID1,ID2);

@@ -16,11 +16,9 @@ Model::Model(){
     p.x = 5; p.y =5;
     PokemonGym* g2 = new PokemonGym(20, 5,7.5,8,2,p);
 
-    
-
     BattleArena* b1 = new BattleArena(2, 5, 5, 1, Point2D(10,10));
 
-    Rival* r1 = new Rival("Gary", 5, 20, 5, 5, 5, 1, Point2D(10,10));
+    Rival* r1 = new Rival("Gary", 5, 10, 5, 5, 5, 1, Point2D(10,10));
     Rival* r2 = new Rival("Silver", 5,10,5,5,5,2, Point2D(10,10));
 
     object_ptrs[0] = p1;
@@ -88,12 +86,12 @@ Rival * Model::GetRivalPtr(int id){
 }
 bool Model::Update(){
     time++;
-    bool tempBool[num_objects] = {false};
+    bool tempBool[9] = {false};
 
-    for(int i =0 ; i<9; i++){
+    for(int i =0 ; i<num_objects; i++){
         tempBool[i] = object_ptrs[i] -> Update();
     }
-    for(int i = 0; i<9; i++){
+    for(int i = 0; i<num_objects; i++){
         if(tempBool[i]) return true;
     }
     //gyms beaten / games lost
@@ -114,14 +112,14 @@ bool Model::Update(){
 
 void Model::Display(View& v){
     v.Clear();
-    for(int i =0 ; i<9; i++){
+    for(int i =0 ; i<num_objects; i++){
         v.Plot(object_ptrs[i]);
     }
     v.Draw();
     
 }
 void Model::ShowStatus(){
-    for(int i =0 ; i<9; i++){
+    for(int i =0 ; i<num_objects; i++){
         object_ptrs[i] -> ShowStatus();
     }
     cout << "Time: " << time << endl;

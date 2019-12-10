@@ -28,8 +28,13 @@
         int x,y;
         bool flag = GetSubscripts(x,y, ptr ->GetLocation());
         if(flag){
-            if(grid[y][x][0] == '.' && ptr->ShouldBeVisible()) {ptr -> DrawSelf(&grid[y][x][0]);}
-            else if (ptr->ShouldBeVisible()) {grid[y][x][0] = '*'; grid[y][x][1] = ' ';}
+            if(grid[y][x][0] == '.' && ptr->ShouldBeVisible()) {
+                ptr -> DrawSelf(&grid[y][x][0]);
+                }
+            else if (ptr->ShouldBeVisible()){
+                grid[y][x][0] = '*'; 
+                grid[y][x][1] = ' ';
+                }
         }
     }
 

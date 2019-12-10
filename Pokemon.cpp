@@ -166,7 +166,7 @@ using namespace std;
 
     void Pokemon::ShowStatus(){
         cout << name << " status: " <<endl;
-        cout << "\tStamina: " << stamina << endl << "\tPokemon Dollars: " << pokemon_dollars << endl << "\tExperience points: " << experience_points << endl;
+        cout << "\tStamina: " << stamina << endl << "\tPokemon Dollars: " << pokemon_dollars << endl << "\tExperience points: " << experience_points << endl << "\tHealth:" << health<< endl;
         GameObject::ShowStatus();
          //cout << "*******SHOW STATUS"<<int(state)<< endl;
         switch (state)
@@ -204,16 +204,19 @@ using namespace std;
             case IN_ARENA:
                 cout << "\tchilling in arena"   << endl;
                 break;
+            case FAINTED:
+                cout << "\tFainted!" << endl;
         }   
         if (IsExhausted()) cout << "\tExhausted!" << endl;
     }
 
     bool Pokemon::Update(){
-        //cout << "**************"<<int(state)<< endl;
+        
         unsigned int temp, temp2;
         if(IsExhausted()){
             cout << name << " is exhausted!" << endl;
         }    
+       // cout << "*******SHOW STATUS"<<int(state)<< endl;
         switch (state)
         {
             case STOPPED:
@@ -280,8 +283,10 @@ using namespace std;
                 return false;
                 break;
             case BATTLE:
+                //cout << "****************************";
                 pokemon_dollars -= current_arena ->GetDollarCost();
                 stamina -= current_arena ->GetStaminaCost();
+                //cout << "Before start battle flag";
                 StartBattle();
                 if(target -> get_health() == 0){
                     health = store_health;
@@ -292,7 +297,11 @@ using namespace std;
                 {
                     state = FAINTED;
                     target ->IsAlive();
-                }
+                } 
+                break;
+            case FAINTED:
+                return false;
+                break;
         }
     }
     string Pokemon:: GetName(){
@@ -334,7 +343,7 @@ using namespace std;
     }
 
     void Pokemon::ReadyBattle(Rival* in_target){
-        if(state == IN_ARENA && current_arena->IsAbleToFight(pokemon_dollars, stamina) && !current_arena->IsBeaten() && in_target->IsAlive()){
+        if(state == IN_ARENA && current_arena->IsAbleToFight(pokemon_dollars, stamina) && !(current_arena->IsBeaten()) && in_target->IsAlive()){
             target = in_target;
             state = BATTLE;
         }
@@ -345,10 +354,12 @@ using namespace std;
     }
 
     bool Pokemon::StartBattle(){
-        while (health>0 || target->get_health() > 0)
+        //cout << "Battle has been started flag";
+        while ((health>0) && (target->get_health() > 0))
         {
             target->TakeHit(physical_damage, magical_damage, defense);
-
-            if (target ->get_health() != 0) TakeHit(target ->get_phys_dmg(), target->get_magic_dmg(), target->get_defense());
+            cout << "TARGET HEALTH   " << target->get_health() << endl<<"POKEMON HEALTH;" << health<< endl; 
+            if (target -> get_health() >= 0) TakeHit(target ->get_phys_dmg(), target->get_magic_dmg(), target->get_defense());
+            //count++;
         }
     }

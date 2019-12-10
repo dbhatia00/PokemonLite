@@ -10,7 +10,7 @@ Rival::Rival(string nam, double speed, double hp, double phys_dmg, double magic_
     //current_arena = arena;
 }
 void Rival::TakeHit(int phys, int mag, int def){
-    double damage;
+    double damage = 0;
     int dmgTypeRandomizer = rand()%2;
     if(dmgTypeRandomizer == 0){
         damage = (100.0 - def) / 100 * phys;
@@ -18,6 +18,7 @@ void Rival::TakeHit(int phys, int mag, int def){
     else{
         damage = (100.0 - def) / 100 * mag;   
     }
+
     if (health > damage) health = health - damage;
     else health = 0;
 
@@ -67,7 +68,7 @@ bool Rival::IsAlive(){
 }
 bool Rival::ShouldBeVisible(){
     if (IsAlive())
-            return false;
-        else
             return true;
+        else
+            return false;
 }
