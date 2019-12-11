@@ -346,14 +346,27 @@ using namespace std;
     }
 
     void Pokemon::ReadyBattle(Rival* in_target){
-        if(state == IN_ARENA && current_arena->IsAbleToFight(pokemon_dollars, stamina) && !(current_arena->IsBeaten()) && in_target->IsAlive()){
+        if (state != IN_ARENA)
+            cout << display_code << id_num << ": I can only battle in an Arena!" << endl;
+        else if (!(current_arena -> IsAbleToFight(pokemon_dollars, stamina)))
+            cout << display_code << id_num << ": I either don't have enough money or stamina..." << endl;
+        else if ((current_arena->IsBeaten()))
+            cout << display_code << id_num << ": There are no rivals left in this arena!" << endl;
+        else if (!in_target->IsAlive())
+            cout << display_code << id_num << ": Cannot Battle! This rival has already been beaten" << endl;
+        else {
+            state = BATTLE;
+            cout << display_code << id_num << ": Started to battle at arena " << current_arena ->GetId() << endl;
+        }
+
+        /*if(state == IN_ARENA && current_arena->IsAbleToFight(pokemon_dollars, stamina) && !(current_arena->IsBeaten()) && in_target->IsAlive()){
             target = in_target;
             state = BATTLE;
         }
         else
         {
             state = IN_ARENA;
-        }
+        }*/
     }
 
     bool Pokemon::StartBattle(){
