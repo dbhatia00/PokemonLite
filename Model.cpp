@@ -54,7 +54,7 @@ Model::Model(){
 
     //arena_ptrs = {b1};
     arena_ptrs.push_back(b1);
-    
+
     cout << "Model default constructed" << endl;
 }
 Model::~Model(){
@@ -113,18 +113,19 @@ bool Model::Update(){
     list<bool> tempBool;
     tempBool.assign(active_ptrs.size(), false);
 
-    for(list<GameObject*>::iterator it = object_ptrs.begin(); it!=object_ptrs.end(); advance(it,1)){
+    for(list<GameObject*>::iterator it = active_ptrs.begin(); it!=active_ptrs.end(); advance(it,1)){
         tempBool.push_front((*it) ->Update());
     }
-
-
 
     for(list<bool>::iterator it = tempBool.begin(); it!=tempBool.end(); advance(it,1)){
         if(*it) return true;
     }
 
-    //clean pointers
     
+    //clean pointers
+    for(list<GameObject*>::iterator it = active_ptrs.begin(); it!=active_ptrs.end(); advance(it,1)){
+        if(!((*it) ->ShouldBeVisible())) it = active_ptrs.erase(it);
+    }
 
     //gyms beaten / games lost
 
@@ -156,7 +157,6 @@ void Model::Display(View& v){
     
 }
 void Model::ShowStatus(){
-    
     for(list<GameObject*>::iterator it = object_ptrs.begin(); it!=object_ptrs.end(); advance(it,1)){
         (*it) -> ShowStatus();
     }

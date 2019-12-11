@@ -107,7 +107,7 @@ using namespace std;
     }
 
     bool Pokemon::ShouldBeVisible(){
-        if (IsExhausted())
+        if (IsExhausted() || state == FAINTED)
             return false;
         else
             return true;

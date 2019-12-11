@@ -72,15 +72,19 @@ int main(){
          cin >> ID1 >>ID2;
          GameCommand().DoMoveToBattleArena(*h, ID1,ID2);
          break;
+      case 'q':
+         break;
       default:
+         throw Invalid_Input("Invalid input char, try again");
          break;
       }
       }
       catch (Invalid_Input& except){
          cout << "Invalid input - " << except.msg_ptr << endl;
          // actions to be taken if the input is wrong
+         continue;
       }
-      
+
       if(input == 'q') displayFlag = true;
       
       if(!displayFlag) h->Display(v);
