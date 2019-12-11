@@ -3,6 +3,7 @@
 #include "Pokemon.h"
 #include "PokemonCenter.h"
 #include "View.h"
+#include "Input_Handling.h"
 #include <list>
 #include <iostream>
 using namespace std;
@@ -39,5 +40,6 @@ class Model{
     bool Update();
     void Display(View&);
     void ShowStatus();
+    void newObject(char);
 };
 #endif

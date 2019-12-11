@@ -124,8 +124,10 @@ bool Model::Update(){
     
     //clean pointers
     for(list<GameObject*>::iterator it = active_ptrs.begin(); it!=active_ptrs.end(); advance(it,1)){
-        if(!((*it) ->ShouldBeVisible())) it = active_ptrs.erase(it);
-    }
+        if(!((*it) ->ShouldBeVisible())){
+             it = active_ptrs.erase(it);
+             cout << "Dead object removed..." << endl;
+    }}
 
     //gyms beaten / games lost
 
@@ -161,4 +163,59 @@ void Model::ShowStatus(){
         (*it) -> ShowStatus();
     }
     cout << "Time: " << time << endl;
+}
+
+void Model::newObject(char inChar){
+    //cout << "Please enter location (x y) ";
+    int x, y, id;
+    cin >> id >> x >> y;
+    if(inChar == 'g'){
+        for(list<PokemonGym*>::iterator it = gym_ptrs.begin(); it!=gym_ptrs.end(); advance(it,1)){
+            if((*it)->GetId() == id) throw Invalid_Input("Bad ID! (ID Already taken)");
+        }
+
+        PokemonGym * g = new PokemonGym(20, 5,7.5,8,id,Point2D(x,y));
+        object_ptrs.push_back(g);
+        active_ptrs.push_back(g);
+        gym_ptrs.push_back(g);
+    }
+    else if(inChar == 'r'){
+        bool temp1 = false;
+        for(list<Rival*>::iterator it = rival_ptrs.begin(); it!=rival_ptrs.end(); advance(it,1)){
+            if((*it)->GetId() == id) throw Invalid_Input("Bad ID! (ID Already taken)");
+        }
+        for(list<BattleArena*>::iterator it = arena_ptrs.begin(); it!=arena_ptrs.end(); advance(it,1)){
+            if((*it)->GetLocation().x == x && (*it)->GetLocation().y == y){
+                temp1 = true;
+            }
+        }
+        if(!temp1){
+            throw Invalid_Input("Bad location, there is no arena here!");
+        }
+        Rival * r = new Rival("Rival", 5,10,5,5,5,id, Point2D(x,y));
+        object_ptrs.push_back(r);
+        active_ptrs.push_back(r);
+        rival_ptrs.push_back(r);
+    }
+    else if(inChar == 'c'){
+        for(list<PokemonCenter*>::iterator it = center_ptrs.begin(); it!=center_ptrs.end(); advance(it,1)){
+            if((*it)->GetId() == id) throw Invalid_Input("Bad ID! (ID Already taken)");
+        }
+
+        PokemonCenter * c = new PokemonCenter(id, 1, 100,Point2D(x,y));
+        object_ptrs.push_back(c);
+        active_ptrs.push_back(c);
+        center_ptrs.push_back(c);
+    }
+    else
+    {
+        for(list<Pokemon*>::iterator it = pokemon_ptrs.begin(); it!=pokemon_ptrs.end(); advance(it,1)){
+            if((*it)->GetId() == id) throw Invalid_Input("Bad ID! (ID Already taken)");
+        }
+         Pokemon * p = new Pokemon("Missingno", id,'P', 2,Point2D(x,y));
+        object_ptrs.push_back(p);
+        active_ptrs.push_back(p);
+        pokemon_ptrs.push_back(p);
+    }
+    
 }

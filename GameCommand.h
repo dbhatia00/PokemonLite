@@ -19,5 +19,6 @@ class GameCommand{
         //PA4 ADDITIONS ->
     void DoBattleCommand(Model & model, int pokemon_id, int rival_id);
     void DoMoveToBattleArena(Model & model, int pokemon_id, int arena_id);
+    void DoAddNewObject(char, Model*);
 };
 #endif

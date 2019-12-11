@@ -1,11 +1,11 @@
 using namespace std;
 #include "GameCommand.h"
-#include "Input_Handling.h"
+
 int main(){
    srand(time(NULL));
    Model * h = new Model();
    View v;
-   char input;
+   char input, newObj;
    int ID1, ID2, staminaAmt, unitAmt, x,y;
    bool displayFlag = false;   
    h ->ShowStatus();
@@ -72,10 +72,14 @@ int main(){
          cin >> ID1 >>ID2;
          GameCommand().DoMoveToBattleArena(*h, ID1,ID2);
          break;
+      case 'n':
+         cin >> newObj;
+         GameCommand().DoAddNewObject(newObj,h);
+         break;
       case 'q':
          break;
       default:
-         throw Invalid_Input("Invalid input char, try again");
+         throw Invalid_Input("bad input char");
          break;
       }
       }

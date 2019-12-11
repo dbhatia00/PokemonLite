@@ -1,5 +1,4 @@
 #include "GameCommand.h"
-#include "Input_Handling.h"
     void GameCommand::DoMoveCommand(Model & model, int pokemon_id, Point2D p1){
         
         if((model.GetPokemonPtr(pokemon_id)) != NULL){
@@ -92,6 +91,12 @@
             poke ->StartMovingToArena(ba);
             if(poke->GetState() == MOVING_TO_ARENA)
                 cout << "Moving " << poke->GetName() << " to Battle Arena " << ba->GetId() << endl;
+        }
+        else throw Invalid_Input("please try again");
+    }
+    void GameCommand::DoAddNewObject(char inChar, Model *h){
+        if(inChar == 'g' || inChar == 'c' || inChar == 'r' || inChar == 'p'){
+            h->newObject(inChar);
         }
         else throw Invalid_Input("please try again");
     }
