@@ -22,20 +22,39 @@ Model::Model(){
     Rival* r2 = new Rival("Silver", 5,10,5,5,5,2, Point2D(10,10));
     
     
-    object_ptrs = {p1, p2, c1 , c2 , g1,g2,b1,r1,r2};
+    //object_ptrs  ={ p1, p2, c1 , c2 , g1,g2,b1,r1,r2};
+    object_ptrs.push_back(p1);
+    object_ptrs.push_back(p2);
+    object_ptrs.push_back(c1);
+    object_ptrs.push_back(c2);
+    object_ptrs.push_back(g1);
+    object_ptrs.push_back(g2);
+    object_ptrs.push_back(b1);
+    object_ptrs.push_back(r1);
+    object_ptrs.push_back(r2);
+
     active_ptrs.assign(object_ptrs.begin(), object_ptrs.end());
 
 
-    pokemon_ptrs = {p1,p2};
+    //pokemon_ptrs = {p1,p2};
+    pokemon_ptrs.push_back(p1);
+    pokemon_ptrs.push_back(p2);
 
-    center_ptrs = {c1,c2};
+    //center_ptrs = {c1,c2};
+    center_ptrs.push_back(c1);
+    center_ptrs.push_back(c2);
 
-    gym_ptrs = {g1,g2};
+    //gym_ptrs = {g1,g2};
+    gym_ptrs.push_back(g1);
+    gym_ptrs.push_back(g2);
 
-    rival_ptrs = {r1,r2};
+    //rival_ptrs = {r1,r2};
+    rival_ptrs.push_back(r1);
+    rival_ptrs.push_back(r2);
 
-    arena_ptrs = {b1};
-
+    //arena_ptrs = {b1};
+    arena_ptrs.push_back(b1);
+    
     cout << "Model default constructed" << endl;
 }
 Model::~Model(){
