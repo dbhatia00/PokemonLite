@@ -20,6 +20,7 @@ class BattleArena: public Building
         bool Update();
         bool IsBeaten();
         void ShowStatus();
+        void RemoveRivals();
 };
 enum BattleArenaStates {
 RIVALS_AVAILABLE = 0,

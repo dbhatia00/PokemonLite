@@ -1,5 +1,6 @@
 using namespace std;
 #include "GameCommand.h"
+#include "Input_Handling.h"
 int main(){
    srand(time(NULL));
    Model * h = new Model();
@@ -14,6 +15,7 @@ int main(){
       displayFlag = false;
       cout << "Command: " ;
       cin >> input;
+      try{
       switch (input)
       {
       case 'm':
@@ -73,6 +75,12 @@ int main(){
       default:
          break;
       }
+      }
+      catch (Invalid_Input& except){
+         cout << "Invalid input - " << except.msg_ptr << endl;
+         // actions to be taken if the input is wrong
+      }
+      
       if(input == 'q') displayFlag = true;
       
       if(!displayFlag) h->Display(v);

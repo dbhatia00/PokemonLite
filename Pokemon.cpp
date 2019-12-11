@@ -292,6 +292,7 @@ using namespace std;
                     health = store_health;
                     state = IN_ARENA;
                     target -> IsAlive();
+                    current_arena->RemoveRivals();
                 }
                 else
                 {
@@ -358,7 +359,7 @@ using namespace std;
         while ((health>0) && (target->get_health() > 0))
         {
             target->TakeHit(physical_damage, magical_damage, defense);
-            cout << "TARGET HEALTH   " << target->get_health() << endl<<"POKEMON HEALTH;" << health<< endl; 
+           // cout << "TARGET HEALTH   " << target->get_health() << endl<<"POKEMON HEALTH;" << health<< endl; 
             if (target -> get_health() >= 0) TakeHit(target ->get_phys_dmg(), target->get_magic_dmg(), target->get_defense());
             //count++;
         }

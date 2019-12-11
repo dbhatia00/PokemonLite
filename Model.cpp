@@ -5,7 +5,7 @@ Model::Model(){
     Point2D p(5,1);
     Pokemon * p1 = new Pokemon("Pikachu", 1,'P', 2,p);
     p.x = 10;
-    Pokemon * p2 = new Pokemon("Bulbasaur", 2, 'P', 1, p);
+    Pokemon * p2 = new Pokemon("Lucario", 2, 'P', 1, p);
 
     p.y = 20; p.x = 1;
     PokemonCenter* c1 = new PokemonCenter(1, 1, 100, p);
@@ -20,107 +20,126 @@ Model::Model(){
 
     Rival* r1 = new Rival("Gary", 5, 10, 5, 5, 5, 1, Point2D(10,10));
     Rival* r2 = new Rival("Silver", 5,10,5,5,5,2, Point2D(10,10));
-
-    object_ptrs[0] = p1;
-    object_ptrs[1] = p2;
-    object_ptrs[2] = c1;
-    object_ptrs[3] = c2;
-    object_ptrs[4] = g1;
-    object_ptrs[5] = g2;
-    object_ptrs[6] = b1;
-    object_ptrs[7] = r2;
-    object_ptrs[8] = r1;
-
-    pokemon_ptrs[0] = p1;
-    pokemon_ptrs[1] = p2;
-
-    center_ptrs[0] = c1;
-    center_ptrs[1] = c2;
-
-    gym_ptrs[0] = g1;
-    gym_ptrs[1] = g2;
-
-    rival_ptrs[0] = r1;
-    rival_ptrs[1] = r2;
-
-    arena_ptrs[0] = b1;
-
-    num_objects=9;
-    num_pokemon=2;
-    num_centers=2;
-    num_gyms=2;
-    num_arenas = 1;
-    num_rivals = 2;
     
+    
+    object_ptrs = {p1, p2, c1 , c2 , g1,g2,b1,r1,r2};
+    active_ptrs.assign(object_ptrs.begin(), object_ptrs.end());
+
+
+    pokemon_ptrs = {p1,p2};
+
+    center_ptrs = {c1,c2};
+
+    gym_ptrs = {g1,g2};
+
+    rival_ptrs = {r1,r2};
+
+    arena_ptrs = {b1};
+
     cout << "Model default constructed" << endl;
 }
 Model::~Model(){
-    for(int i = 0; i<num_pokemon;i++){
-        pokemon_ptrs[i] -> ~Pokemon();
-    }
-    for (int i = 0; i<num_centers;i++){
-        center_ptrs[i] ->~PokemonCenter();
-    }
-    for (int i = 0; i< num_gyms;i++){
-        gym_ptrs[i] ->~PokemonGym();
-    }
+    object_ptrs.clear();
     cout << "Model destructed" << endl;
 }
 Pokemon * Model::GetPokemonPtr(int id){
-    if(id <= num_pokemon && id>0){
-        return pokemon_ptrs[id-1];}
+    if(id <= pokemon_ptrs.size() && id>0){
+        list<Pokemon*>::iterator it = pokemon_ptrs.begin();
+        advance(it,id-1);
+        return *it;
+        }
     else{
         return 0;
 }}
 PokemonCenter * Model::GetPokemonCenterPtr(int id){
-    return center_ptrs[id-1];
+    if(id <= center_ptrs.size() && id>0){
+        list<PokemonCenter*>::iterator it = center_ptrs.begin();
+        advance(it,id-1);
+        return *it;
+        }
+    else{
+        return 0;
+}
 }
 PokemonGym * Model::GetPokemonGymPtr(int id){
-    return gym_ptrs[id-1];
-}
+    if(id <= gym_ptrs.size() && id>0){
+        list<PokemonGym*>::iterator it = gym_ptrs.begin();
+        advance(it,id-1);
+        return *it;
+        }
+    else{
+        return 0;
+}}
+
 BattleArena* Model::GetPokemonArenaPtr(int id){
-    return arena_ptrs[id-1];
-}
+    if(id <= arena_ptrs.size() && id>0){
+        list<BattleArena*>::iterator it = arena_ptrs.begin();
+        advance(it,id-1);
+        return *it;
+        }
+    else{
+        return 0;
+}}
 Rival * Model::GetRivalPtr(int id){
-    return rival_ptrs[id-1];
-}
+    if(id <= pokemon_ptrs.size() && id>0){
+        list<Rival*>::iterator it = rival_ptrs.begin();
+        advance(it,id-1);
+        return *it;
+        }
+    else{
+        return 0;
+}}
 bool Model::Update(){
     time++;
-    bool tempBool[9] = {false};
+    list<bool> tempBool;
+    tempBool.assign(active_ptrs.size(), false);
 
-    for(int i =0 ; i<num_objects; i++){
-        tempBool[i] = object_ptrs[i] -> Update();
+    for(list<GameObject*>::iterator it = object_ptrs.begin(); it!=object_ptrs.end(); advance(it,1)){
+        tempBool.push_front((*it) ->Update());
     }
-    for(int i = 0; i<num_objects; i++){
-        if(tempBool[i]) return true;
+
+
+
+    for(list<bool>::iterator it = tempBool.begin(); it!=tempBool.end(); advance(it,1)){
+        if(*it) return true;
     }
+
+    //clean pointers
+    
+
     //gyms beaten / games lost
 
-    if (gym_ptrs[0] ->IsBeaten() && gym_ptrs[1] ->IsBeaten())
-    {
-        cout << endl <<"You won the game! All Gyms Have been Defeated! " << endl;
-        exit(EXIT_SUCCESS);
-    }
-    if (pokemon_ptrs[0] ->IsExhausted() && pokemon_ptrs[1] ->IsExhausted())
-    {
-        cout << endl << "You lost the game, all pokemon are exhausted" << endl;
-        exit(EXIT_FAILURE);
-    }
+                /*if (gym_ptrs[0] ->IsBeaten() && gym_ptrs[1] ->IsBeaten())
+                {
+                    cout << endl <<"You won the game! All Gyms Have been Defeated! " << endl;
+                    exit(EXIT_SUCCESS);
+                }
+                if (pokemon_ptrs[0] ->IsExhausted() && pokemon_ptrs[1] ->IsExhausted())
+                {
+                    cout << endl << "You lost the game, all pokemon are exhausted" << endl;
+                    exit(EXIT_FAILURE);
+                }*/
+
     
     
 }
 
 void Model::Display(View& v){
     v.Clear();
-    for(int i =0 ; i<num_objects; i++){
+
+    /*for(int i =0 ; i<num_objects; i++){
         v.Plot(object_ptrs[i]);
+    }*/
+    for(list<GameObject*>::iterator it = active_ptrs.begin(); it!=active_ptrs.end(); advance(it,1)){
+        v.Plot(*it);
     }
     v.Draw();
     
 }
 void Model::ShowStatus(){
-    for(int i =0 ; i<num_objects; i++){
-        object_ptrs[i] -> ShowStatus();
+    
+    for(list<GameObject*>::iterator it = object_ptrs.begin(); it!=object_ptrs.end(); advance(it,1)){
+        (*it) -> ShowStatus();
     }
     cout << "Time: " << time << endl;
 }

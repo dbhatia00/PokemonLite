@@ -72,3 +72,7 @@
         cout << "\tPokemon dollars per fight: " << dollar_cost_per_fight<< endl;
         cout << "\t"<<num_rivals_remaining << " rival(s) are reminaing for this arena."<< endl;
     }
+
+    void BattleArena::RemoveRivals(){
+        num_rivals_remaining--;
+    }
