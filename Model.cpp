@@ -14,7 +14,7 @@ Model::Model(){
 
     PokemonGym* g1 = new PokemonGym();
     p.x = 5; p.y =5;
-    PokemonGym* g2 = new PokemonGym(20, 5,7.5,8,2,p);
+    PokemonGym* g2 = new PokemonGym(1, 5,7.5,8,2,p);
 
     BattleArena* b1 = new BattleArena(2, 5, 5, 1, Point2D(10,10));
 
@@ -142,8 +142,45 @@ bool Model::Update(){
                     exit(EXIT_FAILURE);
                 }*/
 
+    //GYM WIN
     
-    
+    int count = 0, numTrue = 0;
+    for(list<PokemonGym*>::iterator it = gym_ptrs.begin(); it!=gym_ptrs.end(); advance(it,1)){
+        if((*it)->IsBeaten()){
+            numTrue++;
+        }
+        count++;
+    }
+    if(numTrue == count){
+        cout << endl <<"You won the game! All Gyms Have been Defeated! " << endl;
+        exit(EXIT_SUCCESS);
+    }
+    //ARENA WIN
+    count = 0, numTrue = 0;
+    for(list<BattleArena*>::iterator it = arena_ptrs.begin(); it!=arena_ptrs.end(); advance(it,1)){
+        if((*it)->IsBeaten()){
+            numTrue++;
+        }
+        count++;
+    }
+    if(numTrue == count){
+        cout << endl <<"You won the game, Pokemon Master! All Arenas Have been conquered! " << endl;
+        exit(EXIT_SUCCESS);
+    }
+    //EXHAUSTED / FAINTED LOSS
+    count = 0;
+    numTrue = 0;
+    for(list<Pokemon*>::iterator it = pokemon_ptrs.begin(); it!=pokemon_ptrs.end(); advance(it,1)){
+        if(!((*it)->ShouldBeVisible())){
+            numTrue++;
+        }
+        count++;
+    }
+    if(numTrue == count){
+        cout << endl <<"You lost the game! All Pokemon are exhausted or fainted! " << endl;
+        exit(EXIT_FAILURE);
+    }
+
 }
 
 void Model::Display(View& v){

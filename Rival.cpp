@@ -14,14 +14,16 @@ void Rival::TakeHit(int phys, int mag, int def){
     int dmgTypeRandomizer = rand()%2;
     if(dmgTypeRandomizer == 0){
         damage = (100.0 - def) / 100 * phys;
+        cout << "We dealt some physical damage! Damage = " << damage << endl;
     }
     else{
         damage = (100.0 - def) / 100 * mag;   
+        cout << "We dealt some magical damage! Damage = " << damage << endl;
     }
 
     if (health > damage) health = health - damage;
     else health = 0;
-
+    cout << "TARGET HEALTH: " << get_health() << endl; 
     //if (health == 0) state = FAINTED_RIVAL;
     
 }

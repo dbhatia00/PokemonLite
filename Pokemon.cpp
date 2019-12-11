@@ -320,13 +320,15 @@ using namespace std;
         int dmgTypeRandomizer = rand()%2;
         if(dmgTypeRandomizer == 0){
             damage = (100.0 - defense) / 100 * phys_dmg;
+            cout << "We took some physical damage! Damage = " << damage << endl;
         }
         else{
             damage = (100.0 - defense) / 100 * mgk_dmg;   
+            cout << "We took some magical damage! Damage = " << damage << endl;
         }
         if (health > damage) health = health - damage;
         else health = 0;
-        
+        cout << name <<" HEALTH: " << health << endl; 
         //if(health ==0) state = FAINTED;
     }
     
@@ -359,8 +361,8 @@ using namespace std;
         while ((health>0) && (target->get_health() > 0))
         {
             target->TakeHit(physical_damage, magical_damage, defense);
-           // cout << "TARGET HEALTH   " << target->get_health() << endl<<"POKEMON HEALTH;" << health<< endl; 
-            if (target -> get_health() >= 0) TakeHit(target ->get_phys_dmg(), target->get_magic_dmg(), target->get_defense());
+            if (target -> IsAlive()) TakeHit(target ->get_phys_dmg(), target->get_magic_dmg(), target->get_defense());
+            //cout << "We're taking damage chief!" << endl <<"TARGET HEALTH   " << target->get_health() << endl<<"POKEMON HEALTH;" << health<< endl; 
             //count++;
         }
     }
