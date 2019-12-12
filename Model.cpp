@@ -14,13 +14,13 @@ Model::Model(){
 
     PokemonGym* g1 = new PokemonGym();
     p.x = 5; p.y =5;
-    PokemonGym* g2 = new PokemonGym(1, 5,7.5,8,2,p);
+    PokemonGym* g2 = new PokemonGym(200, 5,7.5,8,2,p);
 
-    BattleArena* b1 = new BattleArena(2, 5, 5, 1, Point2D(10,10));
+    BattleArena* b1 = new BattleArena(3, 3, 2.5, 1, Point2D(15,12));
 
-    Rival* r1 = new Rival("Gary", 5, 10, 5, 5, 5, 1, Point2D(10,10));
-    Rival* r2 = new Rival("Silver", 5,10,5,5,5,2, Point2D(10,10));
-    
+    Rival* r1 = new Rival("Hop", 5, 10, 5, 5, 5, 1, Point2D(15,12));
+    Rival* r2 = new Rival("Silver", 5,16,5,5,5,2, Point2D(15,12));
+    Rival* r3 = new Rival("Blue", 5,22,5,5,5,3, Point2D(15,12));
     
     //object_ptrs  ={ p1, p2, c1 , c2 , g1,g2,b1,r1,r2};
     object_ptrs.push_back(p1);
@@ -32,7 +32,7 @@ Model::Model(){
     object_ptrs.push_back(b1);
     object_ptrs.push_back(r1);
     object_ptrs.push_back(r2);
-
+    object_ptrs.push_back(r3);
     active_ptrs.assign(object_ptrs.begin(), object_ptrs.end());
 
 
@@ -51,7 +51,7 @@ Model::Model(){
     //rival_ptrs = {r1,r2};
     rival_ptrs.push_back(r1);
     rival_ptrs.push_back(r2);
-
+    rival_ptrs.push_back(r3);
     //arena_ptrs = {b1};
     arena_ptrs.push_back(b1);
 
@@ -100,7 +100,7 @@ BattleArena* Model::GetPokemonArenaPtr(int id){
         return 0;
 }}
 Rival * Model::GetRivalPtr(int id){
-    if(id <= pokemon_ptrs.size() && id>0){
+    if(id <= rival_ptrs.size() && id>0){
         list<Rival*>::iterator it = rival_ptrs.begin();
         advance(it,id-1);
         return *it;

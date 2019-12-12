@@ -41,7 +41,7 @@ class Pokemon : public GameObject{
 	    double store_health = health;
 	    double physical_damage = 5;
 	    double magical_damage = 4;
-	    double defense;
+	    double defense = 5;
 	    Rival* target;
 	    bool is_in_arena = 0;
 	    BattleArena * current_arena;

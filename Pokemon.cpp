@@ -19,6 +19,16 @@ using namespace std;
         name = in_name;
         cout << "Pokemon Constructed" << endl;
     }
+    Pokemon::Pokemon(string in_name, double inSpeed, double hp, double phys_dmg, double magic_dmg, double def, int in_id, char in_code, Point2D in_loc):GameObject(in_loc,in_id,in_code){
+        speed = inSpeed;
+        state = STOPPED;
+        name = in_name;
+        health = hp;
+        physical_damage = phys_dmg;
+        magical_damage = magic_dmg;
+        defense = def;
+        cout << "Pokemon Constructed" << endl;
+    }
     Pokemon::~Pokemon(){
         cout << "Pokemon destructed" << endl;
         //GameObject::~GameObject();
@@ -28,15 +38,15 @@ using namespace std;
         state = MOVING;
         if (location.x == dest.x && location.y == dest.y){
             cout << display_code<< id_num << ": I'm already there. See?" << endl;}
-        else if (IsExhausted()){
-            cout << display_code << id_num << ": I am exhausted. I may move but you cannot see me." << endl;} 
+        else if (IsExhausted() || IsAlive()){
+            cout << display_code << id_num << ": I am exhausted or fainted. I may move but you cannot see me." << endl;} 
         else
             cout << display_code << id_num << ": On my way." << endl;
     }
 
     void Pokemon::StartMovingToCenter(PokemonCenter * center){
-        if(IsExhausted()) 
-            cout << display_code << id_num << ": I am exhausted so I can't move to recover stamina..." << endl;
+        if(IsExhausted() || IsAlive()) 
+            cout << display_code << id_num << ": I am exhausted/fainted so I can't move to recover stamina..." << endl;
         else if((center->GetLocation()).x == location.x && (center->GetLocation()).y == location.y) 
             cout << display_code << id_num << ": I am already at the Pokemon Center!" << endl;
         else {
@@ -48,8 +58,8 @@ using namespace std;
     }
 
     void Pokemon::StartMovingToGym(PokemonGym* gym){
-        if(IsExhausted()) 
-            cout << display_code << id_num << ": I am exhausted so I shouldn't be going to the gym..." << endl;
+        if(IsExhausted() || IsAlive()) 
+            cout << display_code << id_num << ": I am exhausted/fainted so I shouldn't be going to the gym..." << endl;
         else if ((gym->GetLocation()).x == location.x && (gym->GetLocation()).y == location.y) 
             cout << display_code << id_num << ": I am already at the Pokemon Gym!" << endl;
         else {
@@ -61,8 +71,8 @@ using namespace std;
     }
 
     void Pokemon::StartTraining(unsigned int num_training_units){
-        if (IsExhausted())
-            cout << display_code << id_num << ": I am exhausted so no more training for me..." << endl;
+        if (IsExhausted() ||IsAlive())
+            cout << display_code << id_num << ": I am exhausted/fainted so no more training for me..." << endl;
         else if (state != IN_GYM)
             cout << display_code << id_num << ": I can only train in a Pokemon Gym!" << endl;
         else if (!(current_gym -> IsAbleToTrain(num_training_units, pokemon_dollars, stamina)))
@@ -166,8 +176,8 @@ using namespace std;
 
     void Pokemon::ShowStatus(){
         cout << name << " status: " <<endl;
-        cout << "\tStamina: " << stamina << endl << "\tPokemon Dollars: " << pokemon_dollars << endl << "\tExperience points: " << experience_points << endl << "\tHealth:" << health<< endl;
         GameObject::ShowStatus();
+        cout << "\tStamina: " << stamina << endl << "\tPokemon Dollars: " << pokemon_dollars << endl << "\tExperience points: " << experience_points << endl << "\tHealth: " << health<< endl<< "\tPhysical Damage: " << physical_damage<< endl<< "\tMagical damage: " << magical_damage<< endl << "\tDefense: " << defense<< endl;
          //cout << "*******SHOW STATUS"<<int(state)<< endl;
         switch (state)
         {
@@ -355,6 +365,7 @@ using namespace std;
         else if (!in_target->IsAlive())
             cout << display_code << id_num << ": Cannot Battle! This rival has already been beaten" << endl;
         else {
+            target = in_target;
             state = BATTLE;
             cout << display_code << id_num << ": Started to battle at arena " << current_arena ->GetId() << endl;
         }

@@ -8,6 +8,7 @@ Rival::Rival(string nam, double speed, double hp, double phys_dmg, double magic_
     defense = def;
     state = ALIVE_RIVAL;
     //current_arena = arena;
+    cout << "Rival created" << endl;
 }
 void Rival::TakeHit(int phys, int mag, int def){
     double damage = 0;
@@ -50,7 +51,7 @@ bool Rival::Update(){
 void Rival::ShowStatus(){
     cout << name <<" status:" << endl;
     GameObject::ShowStatus();
-    cout << "\thealth: " << health << endl << "\tstate: ";
+    cout << "\tphysical damage: "<< physical_damage << endl << "\tmagical damage: "<< magical_damage<< endl <<"\thealth: " << health << endl << "\tstate: ";
     if(state == ALIVE_RIVAL){
       cout <<  "RIVAL ALIVE";
     }

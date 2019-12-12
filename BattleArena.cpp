@@ -47,6 +47,7 @@
     }
     bool BattleArena::Update(){
         if(state !=NO_RIVALS_AVAILABLE && num_rivals_remaining == 0){
+            display_code =tolower(display_code);
             state = NO_RIVALS_AVAILABLE;
             return true;
         }

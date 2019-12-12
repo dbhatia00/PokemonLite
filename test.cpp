@@ -2,6 +2,7 @@ using namespace std;
 #include "GameCommand.h"
 
 int main(){
+   cout << "EC327: Introduction to Software Engineering" << endl << "Fall 2019" << endl<< "Programming Assignment 4" << endl<< "DEV BHATIA" << endl;
    srand(time(NULL));
    Model * h = new Model();
    View v;
